@@ -41,13 +41,81 @@ layout: default
                 <li><strong>(Domain) Sockets</strong>: A special file type, similar TCP/IP sockets. Provides inter-process networking protected by the file system's access control.</li>
                 <li><strong>Names Pipes</strong>: Similar to sockets and form a way for processes to communicate with each other without using network socket semantics.</li>
             </ol>
-            <p>The <code>-l</code> to <code>ls</code> displays the file types using the first character of each line.</p>
-            ```
+            <p>The <code>-l</code> to <code>ls</code> displays the file types using the first character of each line (long list).</p>
+            <code>
                 John@Computer MINGW64 /d/Essentials-of-Linux-System-Administration-Notes (master)
                 $ ls -l
                 total 10
                 -rw-r--r-- 1 John 197121   29 Jul 21 23:07 _config.yml
                 -rw-r--r-- 1 John 197121 2783 Jul 21 23:07 index.html 
                 -rw-r--r-- 1 John 197121 1087 Jul 21 23:07 LICENSE    
-                -rw-r--r-- 1 John 197121  151 Jul 21 23:07 README.md 
-            ```
+                -rw-r--r-- 1 John 197121  151 Jul 21 23:07 README.md
+                drwxrwxr-x 2 John 197121 4096 Jul 21 23:07 course
+            </code>
+            <p>See the table of characters that determine file types:</p>
+            <table>
+                <tbody>
+                    <tr><th>Symbol</th><th>Meaning</th></tr>
+                    <tr><td>-</td><td>Regular File</td></tr>
+                    <tr><td>d</td><td>Directory</td></tr>
+                    <tr><td>l</td><td>Link</td></tr>
+                    <tr><td>c</td><td>Special File</td></tr>
+                    <tr><td>s</td><td>Socket</td></tr>
+                    <tr><td>p</td><td>Names Pipe</td></tr>
+                    <tr><td>d</td><td>Block Device</td></tr>
+                </tbody>
+            </table>
+            <em>Table 1-1: File type symbols in a long list</em>
+            <p>A user only needs to interact with regular files, directories and links. Special files are dealt by system administrators and programmers as they are there for making the system do what the user demands. </p>
+
+        <h3>1.1.2. About Partitioning</h3>
+            <h4>1.1.2.1. Why Partition?</h4>
+            <ul>
+                <li>Even when standard installation procedure is used, Linux uses more than one partitions on a single disk.</li>
+                <li>One reason for this practice is to have higher data security in case of disaster. Even if one partition gets hit, others can remain intact.</li>
+                <li>In early days of Linux, <strong>journaled file systems</strong> was not present and therefore, power failure could have lead to a disaster.</li>
+                <li>The use of partitions remains for security and robustness reasons.</li>
+            </ul>
+            <p><strong>Journaled file system</strong> provides data security in case of a power failure or sudden disconnection of storage devices. But, it does not protect against bad blocks and logical errors in the file system therefore, RAID(Redundant Array of Inexpensive Disks) should be used in order to protect against such events.</p>
+        
+            <h4>1.1.2.2. Partition layout and types</h4>
+                <p>There are two types of major partitions on a Linux system:</p>
+                <ol>
+                    <li><strong>Data Partition</strong>: Normal Linux system data, including <strong>root partition</strong> containing all the data to startup and run the system.</li>
+                    <li><strong>Swap Partition</strong>: this is expansion of computer's physical memory(RAM) on hard disk.</li>
+                </ol>
+                <p>Most systems contain:</p>
+                    <ol>
+                        <li>One root partition</li>
+                        <li>One or more data partitions</li>
+                        <li>One or more swap partitions</li>
+                    </ol>
+                <p>Systems in mixed environments may also contain partitions for other system data such as a partition for FAT/VFAT file system for MS Windows data.</p>
+                <ul>
+                    <li>Most systems use <strong>fdisk</strong> at the time of installation to set partition types which usually happens automatically.</li>
+                    <li>Other times the user has to manually select the partition types and also do the actual partitioning.</li>
+                    <li>The standard Linux partition have numbers:</li>
+                        <ul>
+                            <li>82 for swap</li>
+                            <li>83 for data</li>
+                        </ul>
+                    <li>Which can be journaled (ext3) or normal (ext2, on older systems)</li>
+                    <li>Linux supports a variety of other file system types apart from ext3 and ext2 such as:</li>
+                        <ul>
+                            <li>relatively new Reiser file system</li>
+                            <li>JFS</li>
+                            <li>NFS</li>
+                            <li>FATxx</li>
+                            <li>also many other that are natively available on other operating systems (proprietary)</li>
+                        </ul>
+                    <li>The standard <strong>root partition</strong> (indicated with a single forward slash, <i>/</i>) is about <strong>100-500 MB</strong> and contains:</li>
+                        <ol>
+                            <li>System configuration file</li>
+                            <li>Most basic commands and server programs</li>
+                            <li>System libraries</li>
+                            <li>Some temporary space</li>
+                            <li>The home directory of the administrative user</li>
+                        </ol>
+                    <li>A standard installation requires 250 MB for root partition.</li>
+                    <li><strong>Swap space</strong> (indicated with <i>swap</i>) is only accessible for the system itself and hidden from view during normal operation.</li>
+                </ul>
