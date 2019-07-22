@@ -118,4 +118,48 @@ layout: default
                         </ol>
                     <li>A standard installation requires 250 MB for root partition.</li>
                     <li><strong>Swap space</strong> (indicated with <i>swap</i>) is only accessible for the system itself and hidden from view during normal operation.</li>
+                    <li>Swap ensure that you can keep on working on the system no matter what happens (like on normal UNIX systems).</li>
+                    <li>You will virtually never see a message like <i>"Out of memory, please close some applications first and try again"</i> because of swap.</li>
+                    <li>Using memory on hard disk(swap) is very slow as compared to real memory(RAM) but it offers a great comfort of having to continue working on multiple applications even with limited RAM.</li>
+                    <li>Linux generally counts on having twice as much swap as the amount of RAM in the system and it can be setup in multiple of ways.</li>
+                    <li>example: swap configuration on a system with 512 MB RAM could be:</li>
+                        <ul>
+                            <li>1 swap partition of 1 GB</li>
+                            <li>2 swap partitions of 512 MB each</li>
+                            <li>with 2 HDDS, 1 swap partition on each HDD of 512 MB each. (best when a lot of I/O is to be expected)</li>
+                        </ul>
+                        <p>
+                            Administrator has to refer to the guidelines of the software/system being deployed to setup swap in an optimal manner for their specific applications/scenarios. Eg., Databases/Database applications might require more swap as compare to others or some systems that lack secondary memory may not need swap at all (like handhelds).
+                            The swap space may also be dependent on kernel version.
+                        </p>
+                    <li>On many distributions, the kernel is also on a separate partition as it is the most crucial file of the OS. In which case, a you also have a <strong>/boot</strong> partition holding the kernel(s) and accompanying data files.</li>
+                    <li>Rest of the HDD(s) is/are generally divided in data partitions.</li>
+                    <li>It maybe that all the non-system critical data resides in one partition. (eg. a standard workstation installation)</li>
+                    <li>But when non-system critical data is separate on different partitions, it is usually in this fashion:</li>
+                        <ol>
+                            <li><strong>/usr</strong>: a partition for user programs</li>
+                            <li><strong>/home</strong>: a partition containing the user's personal data</li>
+                            <li><strong>/var</strong>: a partition to store temporary data like print- and mail- queues</li>
+                            <li><strong>/opt</strong>: a partition for third party and extra software</li>
+                        </ol>
+                    <li>Once the partition are made, it is not advisable to change their size (although possible).</li>
+                    <li>You can add more partition to the system.</li>
+                    <li>On larger scales, the admin may even spread one partition over several HDDs.</li>
+                    <li>A workstation or client installation is mainly intended to be used by one person alone.</li>
+                    <li>
+                        <p>
+                            On a server, the system data tends to be separate from user data.
+                            Programs that offer services are kept in a different than the data handled by these services.
+                            Different partitions will be created on such systems.
+                        </p>
+                    </li>
+                        <p>System will have a partition:</p>
+                        <ol>
+                            <li>with all the necessary data to boot the system</li>
+                            <li>with configuration data and server programs</li>
+                            <li>one or more partition containing server data such as DB tables, emails, etc.</li>
+                            <li>with user programs and applications</li>
+                            <li>one or more partitions with user specific files</li>
+                        </ol>
+
                 </ul>
