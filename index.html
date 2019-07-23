@@ -116,7 +116,7 @@ layout: default
                             <li>Some temporary space</li>
                             <li>The home directory of the administrative user</li>
                         </ol>
-                    <li>A standard installation requires 250 MB for root partition.</li>
+                    <li>A standard installation requires <strong>250 MB</strong> for root partition.</li>
                     <li><strong>Swap space</strong> (indicated with <i>swap</i>) is only accessible for the system itself and hidden from view during normal operation.</li>
                     <li>Swap ensure that you can keep on working on the system no matter what happens (like on normal UNIX systems).</li>
                     <li>You will virtually never see a message like <i>"Out of memory, please close some applications first and try again"</i> because of swap.</li>
@@ -149,17 +149,43 @@ layout: default
                     <li>
                         <p>
                             On a server, the system data tends to be separate from user data.
-                            Programs that offer services are kept in a different than the data handled by these services.
+                            Programs that offer services are kept in a different place than the data handled by these services themselves.
                             Different partitions will be created on such systems.
                         </p>
                     </li>
-                        <p>System will have a partition:</p>
+                        <p>Such systems will have:</p>
                         <ol>
-                            <li>with all the necessary data to boot the system</li>
-                            <li>with configuration data and server programs</li>
+                            <li>a partition with all the necessary data to boot the system</li>
+                            <li>a partition with configuration data and server programs</li>
                             <li>one or more partition containing server data such as DB tables, emails, etc.</li>
-                            <li>with user programs and applications</li>
-                            <li>one or more partitions with user specific files</li>
+                            <li>a partition with user programs and applications</li>
+                            <li>one or more partitions with user specific files (home directories)</li>
+                            <li>one or more swap partitions (virtual memory)</li>
                         </ol>
 
                 </ul>
+            <h4>1.1.2.3. Mount Points</h4>
+                <ul>
+                    <li>All partitions are attached to the system via a mount point.</li>
+                    <li>Mount point defines the place of a particular data set in the file system.</li>
+                    <li>Usually, all partitions are connected through the <i>root</i> partition</li>
+                    <li>Empty directories are created in root partition.</li>
+                    <li>These directories are the starting points for the partitions attached to them</li>
+                    <li>If the Administrator wants to attach a partition to a particular of the file system, he/she has to first check of the directory exists(preferably empty) and then use the <strong>mount</strong> command in order to attach it. Once completed, the directory will contain the content of the partition.</li>
+                    <li>This is how all the partitions are mounted at the time of boot (as described in /etc/fstab).</li>
+                    <li>If some partitions are not constantly connected to the system, they are not mounted by default. But will be mounted automatically when detected if the system is well configured; otherwise they can be user-mountable(not necessarily administrator). (eg: camera storage, etc)</li>
+                    <li>Information about the partitions and their mount points can be displayed using <strong>df</strong> command(<i>disk full/ disk free command</i>).</li>
+                    <li>df command in Linux has <code>-h</code>(human readable) option which make the output more readable.</li>
+                    <li>df in Linux is a GNU version and comes with more options whereas Unix has it's own version on df command.</li>
+                    <li>df command can only display info about the active non-swap partitions including partitions form other systems on the network.</li>
+                </ul>
+                 <code>
+                        John@Computer:$ df -h
+                        Filesystem          Size  Used Avail Use% Mounted on
+                        /dev/hda8           496M  183M  288M  39% /
+                        /dev/hda1           124M  8.4M  109M   8% /boot
+                        /dev/hda5            19G   15G  2.7G  85% /opt
+                        /dev/hda6           7.0G  5.4G  1.2G  81% /usr
+                        /dev/hda7           3.7G  2.7G  867M  77% /var
+                        fs1:/home           8.9G  3.7G  4.7G  44% /.automount/fs1/root/home
+                 </code>
